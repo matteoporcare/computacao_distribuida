@@ -1,0 +1,38 @@
+Entrega 4 — Docker + Redis coordinator
+
+Pré-requisitos:
+- Docker e Docker Compose instalados na máquina.
+
+Estrutura:
+- coordenador/ (server.js, package.json, Dockerfile)
+- flask/ (app.py, Dockerfile, requirements.txt, stress_test.py)
+- docker-compose.yml
+
+Como rodar (local, via docker-compose):
+1) Na raiz do projeto (onde está docker-compose.yml):
+   docker compose build
+   docker compose up
+
+   Isso sobe:
+   - redis (porta 6379)
+   - coordenador (porta 3000)
+   - flask (porta 5000)
+
+2) Verifique serviços:
+   - Coordenador logs: docker compose logs -f coordenador
+   - Flask logs: docker compose logs -f flask
+
+3) Rodar stress test (no host):
+   - Ajuste stress_test.py para apontar para http://localhost:5000/agendamentos (padrão)
+   - python stress_test.py
+   Resultado esperado: 1x 201, 9x 409, sem 500.
+
+4) Executando manualmente (sem Docker):
+   - Suba Redis localmente (opcional)
+   - Rode coordenador (node server.js) apontando REDIS_URL para o host do Redis
+   - Rode flask (python app.py) com COORDINATOR_URL apontando para o coordenador
+
+Observações:
+- O coordenador usa Redis SET NX PX para garantir atomicidade do lock e um script Lua para unlock seguro.
+- TTL evita deadlocks; configure TTL conforme necessário.
+- Em ambientes de produção, use Redis com persistência e monitoração.

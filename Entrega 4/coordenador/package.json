@@ -1,0 +1,14 @@
+{
+  "name": "coordenador-locks",
+  "version": "1.0.0",
+  "description": "Coordenador de locks distribuídos",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "redis": "^4.6.7",
+    "uuid": "^9.0.0"
+  }
+}

@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: entrega4_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  coordenador:
+    build:
+      context: ./coordenador
+      dockerfile: Dockerfile
+    container_name: entrega4_coordenador
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  flask:
+    build:
+      context: ./flask
+      dockerfile: Dockerfile
+    container_name: entrega4_flask
+    depends_on:
+      - coordenador
+    environment:
+      - COORDINATOR_URL=http://coordenador:3000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./flask/agendamento.db:/app/agendamento.db   # optional: persist sqlite on host
+    restart: unless-stopped
+
+volumes:
+  redis-data:
