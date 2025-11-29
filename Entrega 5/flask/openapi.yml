@@ -1,0 +1,28 @@
+openapi: 3.0.0
+info:
+  title: Servico Agendamento
+  version: "1.0"
+paths:
+  /time:
+    get:
+      summary: server time
+      responses:
+        "200":
+          description: ok
+  /agendamentos:
+    post:
+      summary: create agendamento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cientista_id: {type: integer}
+                telescopio_id: {type: integer}
+                horario_inicio_utc: {type: string}
+                horario_fim_utc: {type: string}
+      responses:
+        "201": { description: created }
+        "409": { description: conflict }
