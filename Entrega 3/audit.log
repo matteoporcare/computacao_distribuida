@@ -1,0 +1,2 @@
+{"timestamp_utc": "2025-11-28T03:38:44.647654Z", "level": "AUDIT", "event_type": "AGENDAMENTO_CRIADO", "service": "servico-agendamento", "details": {"agendamento_id": 1, "cientista_id": 1, "telescopio_id": 1}}
+{"timestamp_utc": "2025-11-28T03:39:34.807663Z", "level": "AUDIT", "event_type": "AGENDAMENTO_CRIADO", "service": "servico-agendamento", "details": {"agendamento_id": 2, "cientista_id": 1, "telescopio_id": 1}}

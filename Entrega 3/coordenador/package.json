@@ -1,0 +1,14 @@
+{
+  "name": "coordenador-locks",
+  "version": "1.0.0",
+  "description": "Serviço coordenador simples para controlar locks por recurso",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
+  }
+}

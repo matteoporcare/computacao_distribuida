@@ -1,0 +1,40 @@
+Entrega 3 - Coordenador (Node.js) e integração com Flask (Serviço de Agendamento)
+
+Arquivos:
+- server.js            -> Serviço Coordenador (Express) com endpoints POST /lock e POST /unlock
+- package.json         -> Dependências do Node
+- app.py               -> Serviço Flask atualizado para usar o coordenador antes de gravar no BD
+
+Como rodar (passo a passo):
+
+1) Coordenador (Node.js)
+   - Crie a pasta do coordenador (ex: `coordenador`) e coloque server.js e package.json lá.
+   - Acesse a pasta do coordenador:
+       cd coordenador
+   - Instale as dependências:
+       npm install
+   - Rode o servidor:
+       npm start
+   - O coordenador roda por padrão em http://localhost:3000
+
+2) Serviço Flask (Serviço de Agendamento)
+   - Ative seu venv Python e instale dependências (se ainda não fez):
+       venv\\Scripts\\activate   # PowerShell: venv\\Scripts\\Activate.ps1 (ou use CMD activate.bat)
+       pip install -r requirements.txt
+   - Configure a variável de ambiente (opcional) se o coordenador estiver em outro host/porta:
+       set COORDINATOR_URL=http://localhost:3000   # Windows CMD
+       $env:COORDINATOR_URL = 'http://localhost:3000'  # PowerShell
+   - Apague banco antigo (IMPORTANTE se existir):
+       del agendamento.db
+   - Rode o serviço Flask:
+       python app.py
+
+3) Teste de estresse
+   - Com os dois serviços rodando, execute o script de estresse:
+       python stress_test.py
+   - Resultado esperado: 1x 201 Created e 9x 409 Conflict, SEM erros 500.
+
+Observações:
+- O coordenador aqui é em memória e não persistente. Em produção, use um serviço central (Redis, etcd).
+- TTL do lock evita deadlocks caso o Flask falhe antes de liberar o lock.
+- O Flask tenta adquirir lock antes de verificar conflitos no BD e sempre libera no finally.
